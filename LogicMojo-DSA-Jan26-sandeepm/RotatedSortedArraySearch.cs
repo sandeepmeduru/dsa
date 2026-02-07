@@ -26,40 +26,42 @@ class Result
 
     public static int search_element(List<int> arr, int target)
     {
-        int minElementIndex = GetMinElementIndex(arr);
+        int minIndex = GetMinElementIndex(arr);
+        int i = 0, j = arr.Count-1;//0,2
         
-        int minElement = arr[minElementIndex];
-        if (minElement == target)
+        //2 0 1
+        if (target >= arr[minIndex] && target <= arr[j])
         {
-            return minElementIndex;
+            return Search(arr, minIndex, j, target);
         }
         
-        return minElementIndex == 0
-            ? Search(arr, 0, arr.Count-1, target)
-            : target >= arr[0] && target <= arr[minElementIndex-1]
-                ? Search (arr, 0, minElementIndex-1, target)
-                : Search (arr, minElementIndex+1, arr.Count-1, target);
+        return Search(arr, i, minIndex-1, target);
     }
     
     private static int GetMinElementIndex(List<int> arr)
     {
-        int i = 0, j = arr.Count - 1, mid = 0;
+        // 2 0 1
+        int i = 0, j = arr.Count - 1; //0, 2
         
         while (i < j)
         {
-            mid = i + (j-i)/2;
+            int mid = i + (j-i)/2; //0
             
-            if (arr[mid] <= arr[i])
+            if (arr[mid] > arr[j])
             {
-                j = mid - 1;
+                i = mid + 1; //1
+            }
+            else if (arr[mid] < arr[j])
+            {
+                j = mid; // 1
             }
             else
             {
-                i = mid;
+                j--;
             }
         }
         
-        return mid;
+        return i;
     }
     
     private static int Search(List<int> arr, int start, int end, int target)
