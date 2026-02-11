@@ -26,17 +26,25 @@ class Result
 
     public static int maxProfit(List<int> nums, int n)
     {
-        int minSoFar = nums[0], maxProfit = Int32.MinValue;
+        int maxProfit = 0, purchasePrice = nums[0];
         
         for (int i = 1; i < n; i++)
         {
-            minSoFar = Math.Min(minSoFar, nums[i]);
-            maxProfit = Math.Max(maxProfit, nums[i] - minSoFar);
+            if (nums[i] >= nums[i-1])
+            {
+                if (i != n-1)
+                    continue;
+
+                maxProfit += nums[i] - purchasePrice;
+                continue;
+            }
+            
+            maxProfit += nums[i-1] - purchasePrice;
+            purchasePrice = nums[i];
         }
         
         return maxProfit;
     }
-
 }
 
 class Solution
