@@ -30,14 +30,7 @@ class Result
         while (j < s.Length)
         {
             char currentChar = s[j];
-            if (frequencyMap.ContainsKey(currentChar))
-            {
-                frequencyMap[currentChar]++;
-            }
-            else
-            {
-                frequencyMap[currentChar] = 1;
-            }
+            frequencyMap[currentChar] = frequencyMap.GetValueOrDefault(currentChar, 0) + 1;
             
             while (frequencyMap[currentChar] > 1)
             {
