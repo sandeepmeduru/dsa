@@ -24,7 +24,31 @@ class Result
 
     public static int left_right(List<int> arr)
     {
-
+        int arrLength = arr.Count;
+        int[] arrMax = new int[arrLength];
+        int[] arrMin = new int[arrLength];
+        
+        arrMax[0] = arr[0];
+        for (int i = 1; i < arrLength; i++)
+        {
+            arrMax[i] = Math.Max(arr[i], arrMax[i-1]);
+        }
+        
+        arrMin[arrLength-1] = arr[arrLength-1];
+        for (int i = arrLength - 2; i >= 0; i--)
+        {
+            arrMin[i] = Math.Min(arr[i], arrMin[i+1]);
+        }
+        
+        for (int i = 1; i < arrLength - 1; i++)
+        {
+            if (arrMin[i] == arrMax[i])
+            {
+                return arrMin[i];
+            }
+        }
+        
+        return -1;
     }
 
 }
