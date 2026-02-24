@@ -29,6 +29,55 @@ class Result
 
     public static int kthSmallest(int n, List<int> arr1, int m, List<int> arr2, int k)
     {
+        return arr1.Count <= arr2.Count ? kthSmallest(arr1, arr2, k) : kthSmallest(arr2, arr1, k);
+    }
+    
+    private static int kthSmallest(List<int> arr1, List<int> arr2, int k)
+    {
+        int low = Math.Max(0, k - arr2.Count), high = Math.Min(k, arr1.Count), left1 = -1, right1 = -1, left2 = -1, right2 = -1;
+        
+        //5 6 11    l=0,h=3
+        //2 7 9 10  
+        //1000      
+        //1 2 3 4 5 6 7 8 9 10
+        //10
+        //2 4 8
+        //1 2
+        //3
+        //1 6
+        //1 2 3
+        //5 7
+        //8 9 10
+        while (low <= high)
+        {
+            int mid1 = low + (high-low)/2; //2
+            int mid2 = k - mid1;           //3-2=1
+            
+            left1 = (mid1-1) < 0 ? Int32.MinValue : arr1[mid1-1]; //6
+            right1 = mid1 >= arr1.Count ? Int32.MaxValue : arr1[mid1]; //11
+            
+            left2 = (mid2-1) < 0 ? Int32.MinValue : arr2[mid2-1]; //2
+            right2 = mid2 >= arr2.Count ? Int32.MaxValue : arr2[mid2]; //7
+            
+            if (left1 <= right2 && left2 <= right1)
+            {
+                break;
+            }
+            else if (left2 > right1)
+            {
+                low = mid1+1; //2
+            }
+            else
+            {
+                high = mid1-1; //0
+            }
+        }
+        
+        return Math.Max(left1, left2);
+    }
+    
+    public static int kthSmallestTwoPointers(int n, List<int> arr1, int m, List<int> arr2, int k)
+    {
         int i = 0, j = 0, elementCount = 0, result = Int32.MinValue;
         
         while (i < arr1.Count && j < arr2.Count)
@@ -60,7 +109,7 @@ class Result
             result = arr2[j++];
             elementCount++;
         }
-
+        
         return result;
     }
 }
