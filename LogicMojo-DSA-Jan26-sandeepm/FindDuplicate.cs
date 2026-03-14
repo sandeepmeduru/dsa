@@ -1,5 +1,25 @@
 public class Solution {
     public int FindDuplicate(int[] nums) {
+        int slow = nums[0];
+        int fast = nums[0];
+
+        do
+        {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        } while (slow != fast);
+
+        slow = nums[0];
+        while (slow != fast)
+        {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+
+        return slow;
+    }
+
+    private int FindDuplicateBinarySearch(int[] nums) {
         int n = nums.Length - 1;
         int start = 1, end = n, mid=0;
 
@@ -26,7 +46,7 @@ public class Solution {
         }
 
         return start;
-    }
+    }    
 
     private int FindDuplicateBruteForce(int[] nums)
     {
